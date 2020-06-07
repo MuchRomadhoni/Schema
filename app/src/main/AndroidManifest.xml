@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.myschedule">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/calendar"
+        android:label="Schema"
+        android:roundIcon="@drawable/calendar_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".homeActivity" />
+        <activity android:name=".verifikasi" />
+        <activity android:name=".lupaPassword" />
+        <activity android:name=".register" />
+        <activity android:name=".splashScreen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" />
+    </application>
+</manifest>

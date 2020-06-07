@@ -1,0 +1,130 @@
+<resources>
+    <string name="app_name">My Schedule</string>
+    <string name="title_activity_home">homeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string-array name="Mapel">
+        <item> Pemrograman Mobile </item>
+        <item> Pemrograman Web </item>
+        <item> Basis Data </item>
+        <item> Sistem Operasi </item>
+    </string-array>
+
+    <string-array name="Semt">
+        <item> Semester 4 </item>
+        <item> Semester 4 </item>
+        <item> Semester 4 </item>
+        <item> Semester 4 </item>
+    </string-array>
+
+    <string-array name="Ruangan">
+        <item> 605 GKB 4 </item>
+        <item> 401 GKB 3 </item>
+        <item> 308 GKB 3 </item>
+        <item> 611 GKB 3 </item>
+    </string-array>
+
+    <string-array name="Dosen">
+        <item> Didih Rizki, S.Kom, M.Kom </item>
+        <item> Christian S.K.Aditya, S.Kom, M.Kom </item>
+        <item> Briansyah Setio Wiyono S.Kom. </item>
+        <item> Denar Regata Akbi, S.Kom, M.Kom </item>
+    </string-array>
+
+    <string-array name="Links">
+        <item>https://chat.whatsapp.com/EK4Nzpi7ZcQ40ucYLmJ695</item>
+        <item>https://chat.whatsapp.com/GPCVF5Rj0tc0cCiwaLfi03</item>
+        <item>https://chat.whatsapp.com/FlMLY0mfHnLJlMNMH1VdkC</item>
+        <item>https://chat.whatsapp.com/DwSBtBtMwcQFajBS6KfvUx</item>
+    </string-array>
+
+    <string-array name="Kontak">
+        <item>081349254787</item>
+        <item>081359659715</item>
+        <item>085233829300</item>
+        <item>081330220014</item>
+    </string-array>
+
+    <string-array name="Week">
+        <item> Senin </item>
+        <item> Selasa </item>
+        <item> Rabu </item>
+        <item> Kamis </item>
+        <item> Jumat </item>
+        <item> Sabtu </item>
+    </string-array>
+
+    <string-array name="Senin">
+        <item> Pemrograman Mobile 1 </item>
+        <item> Pemrograman Mobile 2 </item>
+        <item> Pemrograman Mobile 3 </item>
+    </string-array>
+
+    <string-array name="Selasa">
+        <item> Pemrograman Web 1 </item>
+        <item> Pemrograman Web 2 </item>
+        <item> Pemrograman Web 3 </item>
+    </string-array>
+
+    <string-array name="Rabu">
+        <item> Sistem Operasi 1 </item>
+        <item> Sistem Operasi 2 </item>
+        <item> Sistem Operasi 3 </item>
+    </string-array>
+
+    <string-array name="Kamis">
+        <item> Basis Data 1 </item>
+        <item> Basis Data 2 </item>
+        <item> Basis Data 3 </item>
+    </string-array>
+
+    <string-array name="Jumat">
+        <item> K3 1 </item>
+        <item> K3 2 </item>
+        <item> K3 3 </item>
+    </string-array>
+
+    <string-array name="Sabtu">
+        <item> Piranti Cerdas 1 </item>
+        <item> Piranti Cerdas 2 </item>
+        <item> Piranti Cerdas 3 </item>
+    </string-array>
+
+    <string-array name="time1">
+        <item> 07:00 - 8:40 </item>
+        <item> 08:40 - 10:20 </item>
+        <item> 10:20 - 12:00 </item>
+    </string-array>
+
+    <string-array name="time2">
+        <item> 07:00 - 8:40 </item>
+        <item> 08:40 - 10:20 </item>
+        <item> 10:20 - 12:00 </item>
+    </string-array>
+
+    <string-array name="time3">
+        <item> 07:00 - 8:40 </item>
+        <item> 08:40 - 10:20 </item>
+        <item> 10:20 - 12:00 </item>
+    </string-array>
+
+    <string-array name="time4">
+        <item> 07:00 - 8:40 </item>
+        <item> 08:40 - 10:20 </item>
+        <item> 10:20 - 12:00 </item>
+    </string-array>
+
+    <string-array name="time5">
+        <item> 07:00 - 8:40 </item>
+        <item> 08:40 - 10:20 </item>
+        <item> 10:20 - 12:00 </item>
+    </string-array>
+
+    <string-array name="time6">
+        <item> 07:00 - 8:40 </item>
+        <item> 08:40 - 10:20 </item>
+        <item> 10:20 - 12:00 </item>
+    </string-array>
+</resources>
