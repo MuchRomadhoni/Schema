@@ -2,10 +2,11 @@ Repository ini dibuat untuk tugas besar pemrograman mobile
 
 Contributor untuk pembuatan aplikasi ini yaitu :
 
-Moch Inzhagi Hafiz (201810370311341)
-Bimo Gempar Buwono (201810370311345)
-Much Romadhoni (201810370311346)
-Nico Yogi Syahputra (201810370311364)
+  1. Moch Inzhagi Hafiz (201810370311341)
+  2. Bimo Gempar Buwono (201810370311345)
+  3. Much Romadhoni (201810370311346)
+  4. Nico Yogi Syahputra (201810370311364)
+
 Aplikasi ini merupakan aplikasi yang berguna untuk membuat jadwal secara otomatis untuk mahasiswa. Pada awalnya aplikasi ini didesain khusus untuk mahasiswa UMM yang sedang mengikuti perkuliahan.
 
 Fitur-fitur pada aplikasi ini yaitu :
