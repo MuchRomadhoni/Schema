@@ -2,6 +2,7 @@ package com.example.myschedule.ui.home;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,15 +24,31 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.myschedule.R;
 import com.example.myschedule.addkelas;
 import com.example.myschedule.profilDosenFragment;
+import com.example.myschedule.register;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class HomeFragment extends Fragment {
 
+    public static final String TAG = "tag";
     ImageView add;
     ListView listView;
-    TextView mapel, semester, dosen;
+    TextView mapel, semester, dosen, namaUser;
+    TextView verifymsg,verified;
+    String userID;
+
+    FirebaseAuth fAuth;
+    FirebaseFirestore fStore;
 
 
     @Nullable
@@ -42,6 +60,53 @@ public class HomeFragment extends Fragment {
         semester = (TextView) v.findViewById(R.id.semester);
         dosen = (TextView) v.findViewById(R.id.namadosen);
         add = v.findViewById(R.id.add);
+        verifymsg = v.findViewById(R.id.verifymsg);
+        verified = v.findViewById(R.id.verified);
+        namaUser = v.findViewById(R.id.namauser);
+
+        fAuth = FirebaseAuth.getInstance();
+
+        //menampilkan pesan verifikasi
+        final FirebaseUser user = fAuth.getCurrentUser();
+        if (!user.isEmailVerified()) {
+            verifymsg.setVisibility(View.VISIBLE);
+            verified.setVisibility(View.VISIBLE);
+
+        verified.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                //Sent verification link untuk mengetahui emailnya bukan asal2 an
+                user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(getContext(), "Verification Email Has Been Sent",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d(TAG, "onFailure : Verification not Sent" + e.getMessage());
+                    }
+                });
+            }
+        });
+    }else {
+            verifymsg.setVisibility(View.GONE);
+            verified.setVisibility(View.GONE);
+        }
+
+        //Membuat tampilan welcome + nama user yg diambil dari database firestore
+        fStore = FirebaseFirestore.getInstance();
+        userID = fAuth.getCurrentUser().getUid();
+        DocumentReference documentReference = fStore.collection("users").document(userID);
+        documentReference .addSnapshotListener(getActivity(), new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@javax.annotation.Nullable DocumentSnapshot documentSnapshot, @javax.annotation.Nullable FirebaseFirestoreException e) {
+                namaUser.setText(documentSnapshot.getString("fName"));
+            }
+        });
+
+
 
         //pengambilan data dari string array yang akan disimpan pada variabel baru
         final String[] dosen = getResources().getStringArray(R.array.Dosen);
