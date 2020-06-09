@@ -10,6 +10,7 @@
         android:weightSum="9"
         android:background="@color/colorBiru"
         tools:actionBarNavMode="list">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="70dp">
@@ -28,18 +29,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical"
             android:background="@drawable/pilihkelasshape">
 
-            <ListView
+            <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/lv"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:elevation="8dp"
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0.0px"
                 android:clipToPadding="false"
-                android:clipChildren="false"
-                android:layout_marginTop="10dp"></ListView>
+                android:clipChildren="false"></androidx.recyclerview.widget.RecyclerView>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 

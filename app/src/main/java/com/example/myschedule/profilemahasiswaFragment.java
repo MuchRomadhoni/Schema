@@ -77,10 +77,7 @@ public class profilemahasiswaFragment extends Fragment {
         OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
             @Override
             public void handleOnBackPressed() {
-                FragmentTransaction ts = getFragmentManager().beginTransaction();
-                ts.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                ts.replace(R.id.nav_host_fragment, new HomeFragment());
-                ts.commit();
+
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);

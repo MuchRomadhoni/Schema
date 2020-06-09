@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     TextView lupapass;
     EditText emailLogin, passLogin;
     FirebaseAuth fAuth;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,9 @@ public class MainActivity extends AppCompatActivity {
         lupapass = findViewById(R.id.lupapass);
         emailLogin = findViewById(R.id.email);
         passLogin = findViewById(R.id.password);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar2);
+
+        progressBar.setVisibility(View.GONE);
 
         fAuth = FirebaseAuth.getInstance();
 
@@ -77,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                 fAuth.signInWithEmailAndPassword(emailValue,passwordValue).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
+                        progressBar.setVisibility(View.VISIBLE);
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Toast.makeText(MainActivity.this, "Login Success",

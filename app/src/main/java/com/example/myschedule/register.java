@@ -41,6 +41,7 @@ public class register extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     String userID;
     FirebaseFirestore db;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,9 @@ public class register extends AppCompatActivity {
         email = findViewById(R.id.emailregister);
         password = findViewById(R.id.passregister);
         telepon = findViewById(R.id.teleponregister);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar4);
+
+        progressBar.setVisibility(View.GONE);
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -92,6 +96,7 @@ public class register extends AppCompatActivity {
                         (new OnCompleteListener<AuthResult>() {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressBar.setVisibility(View.VISIBLE);
                                 if (task.isSuccessful()) {
 
                                     //Sent verification link untuk mengetahui emailnya bukan asal2 an

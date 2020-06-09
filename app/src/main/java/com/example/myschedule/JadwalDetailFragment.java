@@ -152,7 +152,7 @@ public class JadwalDetailFragment extends Fragment {
                 convertView = layoutInflater.inflate(R.layout.item_daydetail, null);
             }
 
-            title = (TextView) convertView.findViewById(R.id.mapel);
+            title = (TextView) convertView.findViewById(R.id.mapeldaydetail);
             time = (TextView) convertView.findViewById(R.id.waktu);
             dosen = (TextView) convertView.findViewById(R.id.namadosen);
             ruangan = (TextView) convertView.findViewById(R.id.ruangan);

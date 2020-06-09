@@ -1,56 +1,80 @@
 package com.example.myschedule;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myschedule.ui.home.HomeFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class addkelas extends Fragment {
 
-    ListView listView;
+    RecyclerView recyclerView;
     TextView mapel, semester, dosen;
+    DatabaseReference db;
+    CustomAdapter adapter;
+    ArrayList<FirebaseData> list;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_addkelas, container, false);
-        listView = (ListView) v.findViewById(R.id.lv);
+
+        recyclerView = (RecyclerView) v.findViewById(R.id.lv);
         mapel = (TextView) v.findViewById(R.id.mapel);
         semester = (TextView) v.findViewById(R.id.semester);
         dosen = (TextView) v.findViewById(R.id.namadosen);
-        final String[] title1 = getResources().getStringArray(R.array.Mapel);
-        final String[] semt1 = getResources().getStringArray(R.array.Semt);
-        final String[] dosen1 = getResources().getStringArray(R.array.Dosen);
-        final HomeFragment hf = new HomeFragment();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        list = new ArrayList<FirebaseData>();
+
+        //get data from firebase
+        db = FirebaseDatabase.getInstance().getReference().child("Schema");
+        db.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //set code to retrieve data
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                    FirebaseData p = dataSnapshot1.getValue(FirebaseData.class);
+                    list.add(p);
+                }
+                adapter = new CustomAdapter(getContext(), list);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+            }
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "No Data", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        recyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Toast.makeText(getContext(), "item added successfully to Home, but actually it's not. " +
                         "cause idk how to add this item to home fragment", Toast.LENGTH_SHORT).show();
 
-                getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, hf).commit();
-
+                getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new HomeFragment()).commit();
             }
         });
-        setupListView();
 
         return v;
     }
@@ -68,71 +92,5 @@ public class addkelas extends Fragment {
             }
         };
         requireActivity().getOnBackPressedDispatcher().addCallback(this, callback);
-    }
-
-    public class SimpleAdapter extends BaseAdapter {
-
-        public Context mContext;
-        public LayoutInflater layoutInflater;
-        public TextView title, semt, dosen;
-        public String[] titleArray;
-        public String[] semtArray;
-        public String[] dosenArray;
-        public ImageView imageView;
-        public CardView linearLayout;
-
-
-        public SimpleAdapter(Context context, String[] title, String[] semt, String[] dosen) {
-            mContext = context;
-            titleArray = title;
-            semtArray = semt;
-            dosenArray = dosen;
-            layoutInflater = LayoutInflater.from(context);
-
-        }
-
-        @Override
-        public int getCount() {
-            return titleArray.length;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return titleArray[position];
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = layoutInflater.inflate(R.layout.item_class, null);
-            }
-
-            title = (TextView) convertView.findViewById(R.id.mapel);
-            semt = (TextView) convertView.findViewById(R.id.semester);
-            dosen = (TextView) convertView.findViewById(R.id.namadosen);
-            imageView = (ImageView) convertView.findViewById(R.id.fotodosen);
-            linearLayout = (CardView) convertView.findViewById(R.id.kelas);
-
-            title.setText(titleArray[position]);
-            semt.setText(semtArray[position]);
-            dosen.setText(dosenArray[position]);
-
-            return convertView;
-        }
-    }
-
-    public void setupListView() {
-
-        String[] title = getResources().getStringArray(R.array.Mapel);
-        String[] semt = getResources().getStringArray(R.array.Semt);
-        String[] dosen = getResources().getStringArray(R.array.Dosen);
-
-        SimpleAdapter simpleAdapter = new SimpleAdapter(getContext(), title, semt, dosen);
-        listView.setAdapter(simpleAdapter);
     }
 }
