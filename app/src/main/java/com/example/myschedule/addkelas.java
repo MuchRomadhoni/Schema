@@ -1,7 +1,9 @@
 package com.example.myschedule;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,21 +18,32 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myschedule.ui.home.HomeFragment;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class addkelas extends Fragment {
+public class addkelas extends Fragment{
 
     RecyclerView recyclerView;
     TextView mapel, semester, dosen;
     DatabaseReference db;
     CustomAdapter adapter;
-    ArrayList<FirebaseData> list;
+    ArrayList<FirebaseData> firebaseData;
+
+    FirebaseAuth firebaseAuth;
+    FirebaseFirestore fStore;
+    String userID;
+    String mapelHome,semtHome,dosenHome;
 
     @Nullable
     @Override
@@ -43,7 +56,10 @@ public class addkelas extends Fragment {
         dosen = (TextView) v.findViewById(R.id.namadosen);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        list = new ArrayList<FirebaseData>();
+        firebaseData = new ArrayList<FirebaseData>();
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         //get data from firebase
         db = FirebaseDatabase.getInstance().getReference().child("Schema");
@@ -53,26 +69,47 @@ public class addkelas extends Fragment {
                 //set code to retrieve data
                 for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     FirebaseData p = dataSnapshot1.getValue(FirebaseData.class);
-                    list.add(p);
+                    firebaseData.add(p);
                 }
-                adapter = new CustomAdapter(getContext(), list);
+                adapter = new CustomAdapter(getContext(), firebaseData);
                 recyclerView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
+
+                adapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        firebaseData.get(position);
+
+                        mapelHome = firebaseData.get(position).getMapel();
+                        semtHome = firebaseData.get(position).getSemt();
+                        dosenHome = firebaseData.get(position).getDosen();
+                        //store data user to firestore
+                        userID = firebaseAuth.getCurrentUser().getUid();
+                        DocumentReference documentReference = fStore.collection("users").document(userID)
+                                .collection("Mapel Pilihan").document(String.valueOf(position));
+
+                        Map<String, Object> user = new HashMap<>();
+                        user.put("Mapel", mapelHome);
+                        user.put("Semester", semtHome);
+                        user.put("Dosen", dosenHome);
+                        documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d("TAG", "onSuccess ");
+                            }
+                        });
+                        Toast.makeText(getContext(), "Mapel berhasil ditambahkan", Toast.LENGTH_SHORT).show();
+                        adapter.notifyDataSetChanged();
+                        FragmentTransaction ts = getFragmentManager().beginTransaction();
+                        ts.replace(R.id.nav_host_fragment, new HomeFragment());
+                        ts.commit();
+
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(getContext(), "No Data", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        recyclerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "item added successfully to Home, but actually it's not. " +
-                        "cause idk how to add this item to home fragment", Toast.LENGTH_SHORT).show();
-
-                getFragmentManager().beginTransaction().replace(R.id.nav_host_fragment, new HomeFragment()).commit();
             }
         });
 
